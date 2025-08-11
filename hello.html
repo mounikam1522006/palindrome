@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>First Palindrome Finder</title>
+  <style>
+    body { font-family: system-ui, Arial; display:flex; align-items:center; justify-content:center;
+           height:100vh; margin:0; background:#f6f8fa; }
+    .card { background:white; padding:20px 24px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.08); width:320px; }
+    input, button { width:100%; padding:8px 10px; margin-top:8px; box-sizing:border-box; }
+    .result { margin-top:12px; font-weight:600; color:#0b6; }
+    .none { color:#c33; font-weight:600; }
+    small { color:#666; display:block; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>First Palindrome Finder</h3>
+    <input id="words" placeholder="Enter words, comma separated (e.g. level,hello,refer)" />
+    <button id="checkBtn">Find first palindrome</button>
+    <div id="out" class="result"></div>
+    <small>Case-insensitive. Spaces ignored around words.</small>
+  </div>
+
+  <script>
+    function isPalindrome(s){
+      s = s.toLowerCase().replace(/\s+/g, '');
+      let i=0, j=s.length-1;
+      while(i<j){
+        if(s[i] !== s[j]) return false;
+        i++; j--;
+      }
+      return true;
+    }
+
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      const raw = document.getElementById('words').value;
+      if(!raw.trim()){ document.getElementById('out').textContent = 'Please enter some words.'; document.getElementById('out').className='none'; return; }
+      const arr = raw.split(',').map(x => x.trim()).filter(x => x.length>0);
+      const found = arr.find(word => isPalindrome(word));
+      const out = document.getElementById('out');
+      if(found) { out.textContent = `First palindrome: "${found}"`; out.className='result'; }
+      else { out.textContent = 'No palindrome found'; out.className='none'; }
+    });
+  </script>
+</body>
+</html>
